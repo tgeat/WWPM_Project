@@ -1,9 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
-from database import formula_dao
-from model import formula_model
-from view.formula_view import FormulaImportDialog
+from src.database import formula_dao
+from src.model import formula_model
+from src.view.formula_view import FormulaImportDialog
 
 
 class FormulaController:

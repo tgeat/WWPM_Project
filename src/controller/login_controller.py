@@ -14,9 +14,9 @@ project_root = os.path.dirname(src_dir)
 if project_root not in sys.path:  # pragma: no cover - runtime fix
     sys.path.insert(0, project_root)
 
-from view.login_view import LoginView
-from database import user_account_dao as user_dao
-from core.enums import AccountPermissionEnum
+from src.view.login_view import LoginView
+from src.database import user_account_dao as user_dao
+from src.core.enums import AccountPermissionEnum
 
 class LoginPresenter(QObject):
     login_status_signal = pyqtSignal(bool)
