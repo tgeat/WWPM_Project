@@ -4,8 +4,11 @@ from sqlalchemy import (
     UniqueConstraint, Enum, TIMESTAMP, func
 )
 from sqlalchemy.orm import declarative_base, relationship
-from ..config.db_config import engine, SessionLocal
-from ..core.enums import AccountPermissionEnum
+
+# Absolute imports allow this module to be imported without relying on package
+# relative imports.
+from config.db_config import engine, SessionLocal
+from core.enums import AccountPermissionEnum
 Base = declarative_base()
 
 
