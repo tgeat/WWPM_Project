@@ -15,7 +15,7 @@ if __package__ is None:  # pragma: no cover - runtime check
 
 from core.enums import AccountPermissionEnum
 from controller.login_controller import LoginPresenter
-from main_page import MainWindow, MainWindow2
+from view.main_view import MainWindow, MainWindow2
 from controller.storage_controller import StorageController
 from controller.storage_oil_controller import OilStorageController
 
