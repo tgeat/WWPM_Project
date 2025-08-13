@@ -6,9 +6,9 @@ from PyQt5.QtWidgets import (
     QLabel, QHBoxLayout, QVBoxLayout
 )
 
-from wwpm.user_account_page import UserAccountPage,UserAccountPage_advanced
-from wwpm.admin_page import AdminPage, AdvancedPage
-from wwpm.core.enums import AccountPermissionEnum
+from user_account_page import UserAccountPage,UserAccountPage_advanced
+from admin_page import AdminPage, AdvancedPage
+from core.enums import AccountPermissionEnum
 
 class MainWindow(QWidget):
     def __init__(self):

@@ -4,7 +4,7 @@ from sqlalchemy import (
     UniqueConstraint, create_engine,Enum, TIMESTAMP, func
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
-from wwpm.core.enums import AccountPermissionEnum
+from core.enums import AccountPermissionEnum
 
 # ---------- 数据库 URI ----------
 DB_URI = "mysql+pymysql://root:112224@127.0.0.1:3306/water_report?charset=utf8mb4"

@@ -2,9 +2,9 @@ import hashlib
 import json
 import os
 
-from wwpm.core.constant import ACCOUNT_FILE
-from wwpm.core.enums import AccountPermissionEnum
-from wwpm.core.dataclass import Account
+from core.constant import ACCOUNT_FILE
+from core.enums import AccountPermissionEnum
+from core.dataclass import Account
 
 
 class LoginModel:
