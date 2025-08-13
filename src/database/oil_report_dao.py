@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
-from .db_oil_schema import OilWellReports, engine
+from database.db_oil_schema import OilWellReports, engine
 from datetime import date, timedelta
-import datetime as dt
 
 
 class MySQLManager:

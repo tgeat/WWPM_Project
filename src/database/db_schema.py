@@ -1,14 +1,15 @@
 # db_schema.py
 from sqlalchemy import (
     Column, String, Integer, BigInteger, Date, DECIMAL, ForeignKey,
-    UniqueConstraint, Enum, TIMESTAMP, func
+    UniqueConstraint, TIMESTAMP, func
 )
 from sqlalchemy.orm import declarative_base, relationship
 
 # Absolute imports allow this module to be imported without relying on package
 # relative imports.
-from config.db_config import engine, SessionLocal
-from core.enums import AccountPermissionEnum
+from config.db_config import SessionLocal
+
+__all__ = ["SessionLocal"]
 Base = declarative_base()
 
 

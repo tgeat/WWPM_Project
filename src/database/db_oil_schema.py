@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Date, Text, UniqueConstraint
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declared_attr
-from ..config.db_config import engine, SessionLocal
+# Configuration imports removed – this module defines only ORM models
+# and does not require database initialisation at import time.
 
 Base = declarative_base()
 
