@@ -3,8 +3,8 @@ from typing import Iterable
 
 import pymysql
 
-from config.db_config import DB_URI
-from model.formula_model import Formula
+from ..config.db_config import DB_URI
+from ..model.formula_model import Formula
 
 
 def upsert_formulas(formulas: Iterable[Formula]) -> int:

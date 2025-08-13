@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from core.enums import AccountPermissionEnum
+from .enums import AccountPermissionEnum
 
 @dataclass(frozen=True)  # 去掉 slots=True，Python 3.8 不支持
 class Account:

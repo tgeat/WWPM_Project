@@ -2,14 +2,13 @@
 
 
 from datetime import date
-from typing import Optional, Dict
+from typing import Optional, Dict, List, Tuple, Union
 
-from database.db_schema import Base
+from .db_schema import Base
 
-from database.db_schema import (
-    SessionLocal, WorkArea, ProdTeam, MeterRoom, Well, DailyReport, Platformer, Bao,OilWellDatas
+from .db_schema import (
+    SessionLocal, WorkArea, ProdTeam, MeterRoom, Well, DailyReport, Platformer, Bao, OilWellDatas
 )
-from typing import List, Tuple, Union
 from sqlalchemy.orm import Session
 
 HierarchyObj = Union[WorkArea, ProdTeam, MeterRoom, Bao, Platformer, Well, DailyReport]

@@ -2,9 +2,9 @@ import hashlib
 import json
 import os
 
-from core.constant import ACCOUNT_FILE
-from core.enums import AccountPermissionEnum
-from core.dataclass import Account
+from ..core.constant import ACCOUNT_FILE
+from ..core.enums import AccountPermissionEnum
+from ..core.dataclass import Account
 
 
 class LoginModel:
