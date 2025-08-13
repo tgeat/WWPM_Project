@@ -13,7 +13,7 @@ from src.core.enums import AccountPermissionEnum
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("水报管理系统")
+        self.setWindowTitle("日报管理系统")
         self.resize(1300, 600)
         self._init_ui()
 
@@ -65,11 +65,9 @@ class MainWindow(QWidget):
 class MainWindow2(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("水报管理系统")
+        self.setWindowTitle("日报管理系统")
         self.resize(1300, 600)
         self.permission_list = []
-
-
 
     def put_account_info(self,permission):
         self.permission_list=permission.split("_")
@@ -82,8 +80,6 @@ class MainWindow2(QWidget):
         self.nav_list.addItem("账号管理")
         # 固定导航栏宽度，使得不会随窗口大小变化
         self.nav_list.setFixedWidth(150)
-
-
 
 
         # —— 2. 页面容器 —— #
@@ -108,9 +104,6 @@ class MainWindow2(QWidget):
             v2.addWidget(userAccountPage_advanced)
         else:
             v2.addWidget(UserAccountPage())
-
-
-
 
 
         # 把页面加入到 QStackedWidget

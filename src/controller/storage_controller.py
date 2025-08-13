@@ -6,12 +6,13 @@ from datetime import datetime, date,timedelta # 根据你实际用到的名字�
 from decimal import Decimal
 from PyQt5.QtWidgets import QSizePolicy
 
+from src.dataBase.db_schema import Bao
 from src.view.storage_view import StorageView
 from src.model.storage_model import StorageModel
 from src.dataBase.water_report_dao import (
-    upsert_well,upsert_daily_report,
-    upsert_meter_room,upsert_prod_team,
-    upsert_work_area,list_children,list_root,find_by_sequence)
+    upsert_well, upsert_daily_report,
+    upsert_meter_room, upsert_prod_team,
+    upsert_work_area, list_children, list_root, find_by_sequence, upsert_water_well, DBSession)
 
 class SimpleTableModel(QAbstractTableModel):
     def __init__(self, headers, rows):
@@ -171,37 +172,51 @@ class StorageController:
         return self.view
 
     def creat_model_list(self):
+        self.model_list = []
+        today = date.today()
+        self.report_list_yesterday = []
+
+        # 根据权限列表解析区域信息
         for area in list_root():
-            if area.area_name==self.permission_list[1]:
-                self.area_id=area.area_id
+            if area.area_name == self.permission_list[1]:
+                self.area_id = area.area_id
                 for team in list_children("area", self.area_id):
                     if team.team_name == self.permission_list[2]:
                         self.team_id = team.team_id
-                        for room in list_children("team",self.team_id):
-                            if room.room_no==self.permission_list[3]:
-                                self.room_id=room.room_id
-        list_of_well=list_children("room",self.room_id)
-        for well in list_of_well:
-            model=StorageModel()
+                        for room in list_children("team", self.team_id):
+                            if room.room_no == self.permission_list[3]:
+                                self.room_id = room.id
+
+        # 找到计量间后，取其所有Bao，筛选“水报”
+        bao_list = list_children("room", self.room_id)
+        water_bao = [b for b in bao_list if b.bao_typeid == "水报"]
+        if not water_bao:
+            return
+
+        # 取第一个水报Bao，遍历其所有井
+        wells = list_children("bao", water_bao[0].id)
+        for well in wells:
+            model = StorageModel()
             model.wellNum = well.well_code
-            r = find_by_sequence([self.area_id, self.team_id, self.room_id, well.well_id, date.today()])
+
+            r = find_by_sequence([self.area_id, self.team_id, self.room_id, well.id, today])
             if r is not None:
-                model.injectFuc=r.injection_mode
-                model.productLong=r.prod_hours
-                model.mainLinePres=r.trunk_pressure
-                model.oilPres=r.oil_pressure
-                model.casePres=r.casing_pressure
-                model.wellOilPres=r.wellhead_pressure
-                model.daliyWater=r.plan_inject
-                model.firstExecl=r.meter_stage1
-                model.secondExecl=r.meter_stage2
-                model.thirdExcel=r.meter_stage3
-                model.totalWater=r.actual_inject
-                model.note=r.remark
+                model.injectFuc = r.injection_mode
+                model.productLong = r.prod_hours
+                model.mainLinePres = r.trunk_pressure
+                model.oilPres = r.oil_pressure
+                model.casePres = r.casing_pressure
+                model.wellOilPres = r.wellhead_pressure
+                model.daliyWater = r.plan_inject
+                model.firstExecl = r.meter_stage1
+                model.secondExecl = r.meter_stage2
+                model.thirdExcel = r.meter_stage3
+                model.totalWater = r.actual_inject
+                model.note = r.remark
+
             self.model_list.append(model)
-            self.report_list_yesterday.append(find_by_sequence([self.area_id,self.team_id,self.room_id,well.well_id,self.yesterday]))
-
-
+            self.report_list_yesterday.append(
+                find_by_sequence([self.area_id, self.team_id, self.room_id, well.id, self.yesterday]))
 
     def creat_table(self):
 
@@ -240,9 +255,12 @@ class StorageController:
         ]
         self.view.ui.tableView.setModel(SimpleTableModel(headers,rows))
 
-    def put_accout_info(self,permission):
-        self.permission_list=permission.split("_")
-
+    def put_accout_info(self, permission):
+        parts = permission.split("_")
+        if len(parts) >= 5:
+            self.permission_list = parts[:4]
+        else:
+            self.permission_list = parts
 
     # ---------- 保存：界面 → Model ----------
     def save_to_model(self):
@@ -253,9 +271,19 @@ class StorageController:
                 self.model_list[idx] = self.model
                 break
 
-
-
     def save_to_db(self):
+        def to_int_or_none(val):
+            try:
+                return int(val)
+            except (TypeError, ValueError):
+                return None
+
+        def to_float_or_none(val):
+            try:
+                return float(val)
+            except (TypeError, ValueError):
+                return None
+
         for model in self.model_list:
             # 1. 逐级确保外键存在
             area_id = upsert_work_area(self.permission_list[1])
@@ -265,29 +293,36 @@ class StorageController:
                     self.team_no = t.team_no
             team_id = upsert_prod_team(area_id, self.team_no, team_name=self.permission_list[2])
             room_id = upsert_meter_room(team_id, room_no=self.permission_list[3], is_injection=False)
-            well_id = upsert_well(room_id, well_code=model.wellNum)
 
-            # 2. 准备日报字典（可来自 StorageModel.to_dict() 再字段映射）
+            # 通过 room_id 查找对应的 bao_id（水报ID）
+            with DBSession() as db:
+                bao = db.query(Bao).filter(Bao.room_id == room_id).first()
+                if not bao:
+                    raise ValueError(f"找不到对应的水报bao，room_id={room_id}")
+                bao_id = bao.id
+
+            # 使用 bao_id 调用水井接口
+            well_id = upsert_water_well(bao_id, well_code=model.wellNum)
+
+            # 2. 准备日报字典，带转换和空值处理
             rpt = dict(
                 report_date=date.today(),
-                injection_mode=model.injectFuc,
-                prod_hours=model.productLong,
-                trunk_pressure=model.mainLinePres,
-                oil_pressure=model.oilPres,
-                casing_pressure=model.casePres,
-                wellhead_pressure=model.wellOilPres,
-                plan_inject=model.daliyWater,
-                actual_inject=model.totalWater,
-                remark=model.note,
-                meter_stage1=model.firstExecl,
-                meter_stage2=model.secondExecl,
-                meter_stage3=model.thirdExcel
+                injection_mode=model.injectFuc or None,
+                prod_hours=to_int_or_none(model.productLong),
+                trunk_pressure=to_float_or_none(model.mainLinePres),
+                oil_pressure=to_float_or_none(model.oilPres),
+                casing_pressure=to_float_or_none(model.casePres),
+                wellhead_pressure=to_float_or_none(model.wellOilPres),
+                plan_inject=to_float_or_none(model.daliyWater),
+                actual_inject=to_float_or_none(model.totalWater),
+                remark=model.note or None,
+                meter_stage1=to_float_or_none(model.firstExecl),
+                meter_stage2=to_float_or_none(model.secondExecl),
+                meter_stage3=to_float_or_none(model.thirdExcel)
             )
 
             report_id = upsert_daily_report(well_id, rpt)
             print(f"日报已写入，report_id={report_id}")
-
-
 
     # ---------- 加载：Model → 界面 ----------
     def load_from_model(self):
@@ -312,7 +347,6 @@ class StorageController:
             f.setPointSize(self.current_size)
             f.setBold(False)  # 可选：加粗
             button.setFont(f)
-
 
 if __name__ == "__main__":
     import sys
