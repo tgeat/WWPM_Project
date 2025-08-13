@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, Text, UniqueConstraint
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declared_attr
-from config.db_config import engine, SessionLocal
+from ..config.db_config import engine, SessionLocal
 
 Base = declarative_base()
 
