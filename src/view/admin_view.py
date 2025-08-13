@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QModelIndex, QDate, QMimeData
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QDrag
-from formula import FormulaImportDialog
+from .formula_view import FormulaImportDialog
 # 屏蔽 sip 警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 # 保证项目目录在导入路径
