@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from src.dataBase.db_schema import SessionLocal,UserAccount
+from src.database.db_schema import SessionLocal,UserAccount
 from src.core.enums import AccountPermissionEnum
 
 from typing import List
@@ -63,7 +63,7 @@ def get_user(username: str) -> UserAccount:
         return db.query(UserAccount).filter_by(username=username).first()
 
 if __name__ == "__main__":
-    from src.dataBase.db_schema import AccountPermissionEnum
+    from src.database.db_schema import AccountPermissionEnum
 
     uid = create_user("admin1", "admin123", AccountPermissionEnum.Admin)
     print(f"用户创建成功，ID={uid}")

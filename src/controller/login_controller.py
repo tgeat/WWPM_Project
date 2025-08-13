@@ -2,7 +2,7 @@ from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
 from src.view.login_view import LoginView
-import src.dataBase.user_account_dao as user_dao
+import src.database.user_account_dao as user_dao
 
 from src.core.enums import AccountPermissionEnum
 
