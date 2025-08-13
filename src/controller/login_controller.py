@@ -4,31 +4,19 @@ from PyQt5.QtWidgets import QApplication
 import os
 import sys
 
-if __package__ is None or __package__ == "":  # pragma: no cover - runtime fix
-    module_dir = os.path.dirname(os.path.abspath(__file__))
-    src_dir = os.path.dirname(module_dir)
-    project_root = os.path.dirname(src_dir)
-    if project_root not in sys.path:
-        sys.path.insert(0, project_root)
-    __package__ = "src.controller"
+# Ensure the project root is available on ``sys.path`` so that absolute
+# imports like ``from src.database`` work when this module is executed
+# directly without installing the package.  This mirrors the behaviour of
+# running the project as an installed distribution.
+module_dir = os.path.dirname(os.path.abspath(__file__))
+src_dir = os.path.dirname(module_dir)
+project_root = os.path.dirname(src_dir)
+if project_root not in sys.path:  # pragma: no cover - runtime fix
+    sys.path.insert(0, project_root)
 
-from ..view.login_view import LoginView
-
-# The application may run without installing the package. In that case
-# relative imports like ``from ..database`` can fail because Python cannot
-# resolve the top level ``src`` package.  Fallback to an absolute import with
-# a manually adjusted ``sys.path`` so the module can be executed directly.
-try:  # pragma: no cover - import resolution
-    from ..database import user_account_dao as user_dao
-except ModuleNotFoundError:  # pragma: no cover - runtime fix
-    module_dir = os.path.dirname(os.path.abspath(__file__))
-    src_dir = os.path.dirname(module_dir)
-    project_root = os.path.dirname(src_dir)
-    if project_root not in sys.path:
-        sys.path.insert(0, project_root)
-    from src.database import user_account_dao as user_dao
-
-from ..core.enums import AccountPermissionEnum
+from src.view.login_view import LoginView
+from src.database import user_account_dao as user_dao
+from src.core.enums import AccountPermissionEnum
 
 class LoginPresenter(QObject):
     login_status_signal = pyqtSignal(bool)
