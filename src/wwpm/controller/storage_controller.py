@@ -6,10 +6,10 @@ from datetime import datetime, date,timedelta # 根据你实际用到的名字�
 from decimal import Decimal
 from PyQt5.QtWidgets import QSizePolicy
 
-from src.database.db_schema import Bao
-from src.view.storage_view import StorageView
-from src.model.storage_model import StorageModel
-from src.database.water_report_dao import (
+from wwpm.database.db_schema import Bao
+from wwpm.view.storage_view import StorageView
+from wwpm.model.storage_model import StorageModel
+from wwpm.database.water_report_dao import (
     upsert_well, upsert_daily_report,
     upsert_meter_room, upsert_prod_team,
     upsert_work_area, list_children, list_root, find_by_sequence, upsert_water_well, DBSession)

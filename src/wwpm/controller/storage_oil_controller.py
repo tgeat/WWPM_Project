@@ -11,10 +11,10 @@ import sys
 import pickle
 import os
 import logging
-from src.view.storage_oil_view import OilStorageView
-from src.model.storage_oil_model import OilWellModel, ReportData
-from src.database.oil_report_dao import MySQLManager
-from src.database.water_report_dao import list_root, list_children, find_by_sequence
+from wwpm.view.storage_oil_view import OilStorageView
+from wwpm.model.storage_oil_model import OilWellModel, ReportData
+from wwpm.database.oil_report_dao import MySQLManager
+from wwpm.database.water_report_dao import list_root, list_children, find_by_sequence
 
 
 # 数据持久化工具类，保持在本地一天
@@ -209,7 +209,7 @@ class FormulaCheckThread(QThread):
     def get_formulas(self):
         try:
             from sqlalchemy.orm import Session
-            from src.database.db_oil_schema import FormulaData
+            from wwpm.database.db_oil_schema import FormulaData
 
             with Session(self.db_manager.engine) as session:
                 records = session.query(FormulaData.formula).all()
@@ -375,7 +375,7 @@ class OilStorageController:
     def load_formulas(self):
         try:
             from sqlalchemy.orm import Session
-            from src.database.db_oil_schema import FormulaData
+            from wwpm.database.db_oil_schema import FormulaData
 
             with Session(self.db_manager.engine) as session:
                 records = session.query(FormulaData.formula).all()

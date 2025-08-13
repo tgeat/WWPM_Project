@@ -4,9 +4,9 @@
 from datetime import date
 from typing import Optional, Dict
 
-from src.database.db_schema import Base
+from wwpm.database.db_schema import Base
 
-from src.database.db_schema import (
+from wwpm.database.db_schema import (
     SessionLocal, WorkArea, ProdTeam, MeterRoom, Well, DailyReport, Platformer, Bao,OilWellDatas
 )
 from typing import List, Tuple, Union
