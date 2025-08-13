@@ -1,12 +1,29 @@
+"""User account DAO utilities.
+
+This module uses absolute imports so it can be executed directly as a script
+without worrying about Python package layouts.  It exposes helper functions for
+creating, querying and managing :class:`~database.db_schema.UserAccount`
+records using SQLAlchemy sessions.
+"""
+
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from .db_schema import SessionLocal, UserAccount
-from ..core.enums import AccountPermissionEnum
+
+# Absolute imports ensure the module works both as part of the package and when
+# executed as a stand‑alone script.
+from database.db_schema import SessionLocal, UserAccount
+from core.enums import AccountPermissionEnum
 
 from typing import List
 
+
 # 创建用户
-def create_user(username: str, password: str, permission: str ) -> int:
+def create_user(username: str, password: str, permission: str) -> int:
+    """Create a user and return its ID.
+
+    Returns -1 if the username already exists.
+    """
+
     with SessionLocal() as db:
         exists = db.query(UserAccount).filter_by(username=username).first()
         if exists:
@@ -18,15 +35,18 @@ def create_user(username: str, password: str, permission: str ) -> int:
         db.refresh(user)
         return user.user_id
 
+
 # 读取用户（通过用户名）
 def get_user_by_username(username: str) -> UserAccount:
     with SessionLocal() as db:
         return db.query(UserAccount).filter_by(username=username).first()
 
+
 # 读取所有用户
 def list_users() -> List[UserAccount]:
     with SessionLocal() as db:
         return db.query(UserAccount).order_by(UserAccount.username).all()
+
 
 # 更新密码或权限
 def update_user(user_id: int, password: str = None, permission: str = None) -> bool:
@@ -41,6 +61,7 @@ def update_user(user_id: int, password: str = None, permission: str = None) -> b
         db.commit()
         return True
 
+
 # 删除用户
 def delete_user(user_id: int) -> bool:
     with SessionLocal() as db:
@@ -51,20 +72,21 @@ def delete_user(user_id: int) -> bool:
         db.commit()
         return True
 
+
 # 验证用户名密码
 def check_password(username: str, password: str) -> bool:
     with SessionLocal() as db:
         user = db.query(UserAccount).filter_by(username=username, password=password).first()
         return user is not None
 
+
 # 获取用户账户对象
 def get_user(username: str) -> UserAccount:
     with SessionLocal() as db:
         return db.query(UserAccount).filter_by(username=username).first()
 
-if __name__ == "__main__":
-    from .db_schema import AccountPermissionEnum
 
+if __name__ == "__main__":
     uid = create_user("admin1", "admin123", AccountPermissionEnum.Admin)
     print(f"用户创建成功，ID={uid}")
 
@@ -76,3 +98,4 @@ if __name__ == "__main__":
 
     # delete_user(user.user_id)
     # print("用户已删除")
+
