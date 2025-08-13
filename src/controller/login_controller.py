@@ -13,7 +13,20 @@ if __package__ is None or __package__ == "":  # pragma: no cover - runtime fix
     __package__ = "src.controller"
 
 from ..view.login_view import LoginView
-from ..database import user_account_dao as user_dao
+
+# The application may run without installing the package. In that case
+# relative imports like ``from ..database`` can fail because Python cannot
+# resolve the top level ``src`` package.  Fallback to an absolute import with
+# a manually adjusted ``sys.path`` so the module can be executed directly.
+try:  # pragma: no cover - import resolution
+    from ..database import user_account_dao as user_dao
+except ModuleNotFoundError:  # pragma: no cover - runtime fix
+    module_dir = os.path.dirname(os.path.abspath(__file__))
+    src_dir = os.path.dirname(module_dir)
+    project_root = os.path.dirname(src_dir)
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+    from src.database import user_account_dao as user_dao
 
 from ..core.enums import AccountPermissionEnum
 
