@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.dataBase.db_oil_schema import OilWellReports, engine
+from src.database.db_oil_schema import OilWellReports, engine
 from datetime import date, timedelta
 import datetime as dt
 

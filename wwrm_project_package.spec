@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['WWRM_Project.py'],
+a = Analysis(['main.py'],
              pathex=['src'],
              binaries=[],
              datas=[],
@@ -24,7 +24,7 @@ exe = EXE(pyz,
           a.scripts, 
           [],
           exclude_binaries=True,
-          name='WWRM_Project_package',
+          name='wwrm_project_package',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -41,4 +41,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='WWRM_Project_package')
+               name='wwrm_project_package')
