@@ -8,8 +8,8 @@ records using SQLAlchemy sessions.
 
 # Absolute imports ensure the module works both as part of the package and when
 # executed as a stand‑alone script.
-from database.db_schema import SessionLocal, UserAccount
-from core.enums import AccountPermissionEnum
+from src.database.db_schema import SessionLocal, UserAccount
+from src.core.enums import AccountPermissionEnum
 
 from typing import List
 

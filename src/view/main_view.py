@@ -5,9 +5,11 @@ from PyQt5.QtWidgets import (
     QHBoxLayout, QVBoxLayout
 )
 
-from view.user_account_view import UserAccountPage, UserAccountPage_advanced
-from view.admin_view import AdminPage, AdvancedPage
-from core.enums import AccountPermissionEnum
+from src.view.user_account_view import UserAccountPage, UserAccountPage_advanced
+from src.view.admin_view import AdminPage, AdvancedPage
+from src.core.enums import AccountPermissionEnum
+
+
 
 class MainWindow(QWidget):
     def __init__(self):

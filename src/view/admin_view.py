@@ -13,15 +13,15 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QModelIndex, QDate, QMimeData
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from view.formula_view import FormulaImportDialog
+from src.view.formula_view import FormulaImportDialog
 # 屏蔽 sip 警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 # 保证项目目录在导入路径
 sys.path.append(str(pathlib.Path(__file__).resolve().parent))
-from database.water_report_dao import (
+from src.database.water_report_dao import (
     list_root, list_children, delete_entity, upsert_daily_report, DBSession
 )
-from database.db_schema import DailyReport, SessionLocal, OilWellDatas, Well, Bao, Platformer
+from src.database.db_schema import DailyReport, SessionLocal, OilWellDatas, Well, Bao, Platformer
 import pandas as pd
 
 def fmt(value):

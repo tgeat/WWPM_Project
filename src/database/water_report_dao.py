@@ -4,9 +4,9 @@
 from datetime import date
 from typing import Optional, Dict, List, Union
 
-from database.db_schema import Base
+from src.database.db_schema import Base
 
-from database.db_schema import (
+from src.database.db_schema import (
     SessionLocal, WorkArea, ProdTeam, MeterRoom, Well, DailyReport, Platformer, Bao, OilWellDatas
 )
 from sqlalchemy.orm import Session

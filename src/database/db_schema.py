@@ -7,7 +7,7 @@ from sqlalchemy.orm import declarative_base, relationship
 
 # Absolute imports allow this module to be imported without relying on package
 # relative imports.
-from config.db_config import SessionLocal
+from src.config.db_config import SessionLocal
 
 __all__ = ["SessionLocal"]
 Base = declarative_base()
