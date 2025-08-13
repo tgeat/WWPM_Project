@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\86177\Desktop\孟_5.16\WWRM_Project\asserts\ui\storage_view.ui'
+# Form implementation generated from reading ui file 'C:\Users\86177\Desktop\孟_5.16\WWRM_Project\assets\ui\storage_view.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #

@@ -2,7 +2,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QScrollArea, QVBoxLayout
 from PyQt5 import uic
 
-from asserts.ui.storage_oil_view_ui import Ui_Form
+from assets.ui.storage_oil_view_ui import Ui_Form
 
 
 class OilStorageView(QWidget):
@@ -140,7 +140,7 @@ import datetime
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QLabel, QScrollArea, QVBoxLayout, QPushButton
 from PyQt5 import uic
 
-from asserts.ui.storage_oil_view_ui import Ui_Form
+from assets.ui.storage_oil_view_ui import Ui_Form
 
 
 class OilStorageView(QWidget):
