@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wwpm"
+version = "0.1.0"
+description = "WWPM project"
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.scripts]
+wwpm = "wwpm.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

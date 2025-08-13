@@ -1,10 +1,10 @@
 
 from PyQt5.QtWidgets import QApplication
-from src.core.enums import AccountPermissionEnum
-from src.controller.login_controller import LoginPresenter
-from src.main_page import MainWindow,MainWindow2
-from src.controller.storage_controller import StorageController
-from src.controller.storage_oil_controller import OilStorageController
+from wwpm.core.enums import AccountPermissionEnum
+from wwpm.controller.login_controller import LoginPresenter
+from wwpm.main_page import MainWindow,MainWindow2
+from wwpm.controller.storage_controller import StorageController
+from wwpm.controller.storage_oil_controller import OilStorageController
 
 
 
