@@ -1,18 +1,11 @@
 # db_schema.py
 from sqlalchemy import (
     Column, String, Integer, BigInteger, Date, DECIMAL, ForeignKey,
-    UniqueConstraint, create_engine,Enum, TIMESTAMP, func
+    UniqueConstraint, Enum, TIMESTAMP, func
 )
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.orm import declarative_base, relationship
+from config.db_config import engine, SessionLocal
 from core.enums import AccountPermissionEnum
-
-# ---------- 数据库 URI ----------
-DB_URI = "mysql+pymysql://root:112224@127.0.0.1:3306/water_report?charset=utf8mb4"
-
-
-# ---------- 引擎 & 会话 ----------
-engine = create_engine(DB_URI, echo=False, pool_pre_ping=True)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False,expire_on_commit=False)
 Base = declarative_base()
 
 

@@ -1,13 +1,7 @@
-from sqlalchemy import Column, Integer, String, Date, Text, create_engine, UniqueConstraint
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import Column, Integer, String, Date, Text, UniqueConstraint
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declared_attr
-
-# 数据库连接配置
-DB_URI = "mysql+pymysql://root:112224@127.0.0.1:3306/water_report?charset=utf8mb4"
-
-
-engine = create_engine(DB_URI, echo=False, pool_pre_ping=True)
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False, expire_on_commit=False)
+from config.db_config import engine, SessionLocal
 
 Base = declarative_base()
 
