@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from database.db_oil_schema import OilWellReports, engine
+from database.db_oil_schema import OilWellReports
+from config.db_config import engine
 from datetime import date, timedelta
 
 
