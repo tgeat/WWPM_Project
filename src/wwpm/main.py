@@ -1,8 +1,21 @@
 
+import os
+import sys
+
 from PyQt5.QtWidgets import QApplication
+
+# Allow running this file directly without installing the package
+if __package__ is None:  # pragma: no cover - runtime check
+    module_dir = os.path.dirname(os.path.abspath(__file__))
+    src_dir = os.path.dirname(module_dir)
+    project_root = os.path.dirname(src_dir)
+    for path in (src_dir, project_root):
+        if path not in sys.path:
+            sys.path.insert(0, path)
+
 from wwpm.core.enums import AccountPermissionEnum
 from wwpm.controller.login_controller import LoginPresenter
-from wwpm.main_page import MainWindow,MainWindow2
+from wwpm.main_page import MainWindow, MainWindow2
 from wwpm.controller.storage_controller import StorageController
 from wwpm.controller.storage_oil_controller import OilStorageController
 
