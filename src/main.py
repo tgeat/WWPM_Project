@@ -10,13 +10,12 @@ if __package__ is None:  # pragma: no cover - runtime check
     parent_dir = os.path.dirname(module_dir)
     if parent_dir not in sys.path:
         sys.path.insert(0, parent_dir)
-    __package__ = "src"
 
-from .core.enums import AccountPermissionEnum
-from .controller.login_controller import LoginPresenter
-from .view.main_view import MainWindow, MainWindow2
-from .controller.storage_controller import StorageController
-from .controller.storage_oil_controller import OilStorageController
+from core.enums import AccountPermissionEnum
+from controller.login_controller import LoginPresenter
+from view.main_view import MainWindow, MainWindow2
+from controller.storage_controller import StorageController
+from controller.storage_oil_controller import OilStorageController
 
 
 

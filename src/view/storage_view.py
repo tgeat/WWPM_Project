@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit
 
 # ✅ 假设 Ui_Form 是通过 Qt Designer 生成的 .ui 文件转化成的
-from ..interface.storage_view_ui import Ui_Form
+from interface.storage_view_ui import Ui_Form
 
 class StorageView(QWidget):
     def __init__(self):

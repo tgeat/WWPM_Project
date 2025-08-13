@@ -4,12 +4,12 @@ from PyQt5.QtWidgets import (
     QVBoxLayout, QDialogButtonBox
 )
 from PyQt5.QtCore import Qt
-from ..interface.user_account_ui import Ui_Form
-from ..database.user_account_dao import (
+from interface.user_account_ui import Ui_Form
+from database.user_account_dao import (
     create_user, delete_user, get_user_by_username, list_users
 )
-from ..database.water_report_dao import list_children, list_root
-from ..core.enums import AccountPermissionEnum
+from database.water_report_dao import list_children, list_root
+from core.enums import AccountPermissionEnum
 from typing import List
 import sys
 

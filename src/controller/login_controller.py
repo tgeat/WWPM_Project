@@ -5,7 +5,7 @@ import os
 import sys
 
 # Ensure the project root is available on ``sys.path`` so that absolute
-# imports like ``from src.database`` work when this module is executed
+# imports like ``from database`` work when this module is executed
 # directly without installing the package.  This mirrors the behaviour of
 # running the project as an installed distribution.
 module_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,9 +14,9 @@ project_root = os.path.dirname(src_dir)
 if project_root not in sys.path:  # pragma: no cover - runtime fix
     sys.path.insert(0, project_root)
 
-from src.view.login_view import LoginView
-from src.database import user_account_dao as user_dao
-from src.core.enums import AccountPermissionEnum
+from view.login_view import LoginView
+from database import user_account_dao as user_dao
+from core.enums import AccountPermissionEnum
 
 class LoginPresenter(QObject):
     login_status_signal = pyqtSignal(bool)

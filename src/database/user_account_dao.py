@@ -6,9 +6,6 @@ creating, querying and managing :class:`~database.db_schema.UserAccount`
 records using SQLAlchemy sessions.
 """
 
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
-
 # Absolute imports ensure the module works both as part of the package and when
 # executed as a stand‑alone script.
 from database.db_schema import SessionLocal, UserAccount

@@ -2,11 +2,11 @@
 
 
 from datetime import date
-from typing import Optional, Dict, List, Tuple, Union
+from typing import Optional, Dict, List, Union
 
-from .db_schema import Base
+from database.db_schema import Base
 
-from .db_schema import (
+from database.db_schema import (
     SessionLocal, WorkArea, ProdTeam, MeterRoom, Well, DailyReport, Platformer, Bao, OilWellDatas
 )
 from sqlalchemy.orm import Session
@@ -575,7 +575,7 @@ if __name__ == "__main__":
         total_oil="500.5"
     )
 
-    from db_schema import SessionLocal, OilWellDatas
+    from database.db_schema import OilWellDatas
 
     with SessionLocal() as db:
         oil_well = db.query(Well).filter_by(well_code="油井-D2").first()

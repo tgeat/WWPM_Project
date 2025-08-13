@@ -1,14 +1,13 @@
 import sys
 
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QListWidget, QStackedWidget,
-    QLabel, QHBoxLayout, QVBoxLayout
+    QHBoxLayout, QVBoxLayout
 )
 
-from .user_account_view import UserAccountPage, UserAccountPage_advanced
-from .admin_view import AdminPage, AdvancedPage
-from ..core.enums import AccountPermissionEnum
+from view.user_account_view import UserAccountPage, UserAccountPage_advanced
+from view.admin_view import AdminPage, AdvancedPage
+from core.enums import AccountPermissionEnum
 
 class MainWindow(QWidget):
     def __init__(self):
