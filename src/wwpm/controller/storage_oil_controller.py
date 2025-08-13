@@ -11,6 +11,7 @@ import sys
 import pickle
 import os
 import logging
+from wwpm.core.constant import ROOT_DIR
 from wwpm.view.storage_oil_view import OilStorageView
 from wwpm.model.storage_oil_model import OilWellModel, ReportData
 from wwpm.database.oil_report_dao import MySQLManager
@@ -21,7 +22,7 @@ from wwpm.database.water_report_dao import list_root, list_children, find_by_seq
 class DataPersistence:
     """用于保存和加载当天数据，确保程序重启后同一天数据不丢失"""
 
-    def __init__(self, save_path="oil_well_data.pkl"):
+    def __init__(self, save_path=ROOT_DIR / "data" / "oil_well_data.pkl"):
         self.save_path = save_path
 
     def save_data(self, reports, current_date):
