@@ -1,5 +1,6 @@
 import sys
 import pymysql
+from config.db_config import DB_URI
 from PyQt5.QtWidgets import (QTableWidget, QTableWidgetItem, QPushButton, QVBoxLayout, QHBoxLayout,
                              QDialogButtonBox, QDialog, QApplication, QComboBox, QMenu, QLineEdit, QMessageBox)
 from PyQt5.QtCore import Qt
@@ -241,10 +242,8 @@ class FormulaImportDialog(QDialog):
         """将表格内容导出到MySQL数据库，增加重复判断逻辑"""
         try:
             # 从DB_URI解析连接参数
-            db_uri = "mysql+pymysql://root:112224@127.0.0.1:3306/water_report?charset=utf8mb4"
-
             import re
-            match = re.match(r'mysql\+pymysql://(\w+):(\w+)@([\d\.]+):(\d+)/(\w+)\?charset=(\w+)', db_uri)
+            match = re.match(r'mysql\+pymysql://(\w+):(\w+)@([\d\.]+):(\d+)/(\w+)\?charset=(\w+)', DB_URI)
             if not match:
                 raise ValueError("无效的DB_URI格式")
 
