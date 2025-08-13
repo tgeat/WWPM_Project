@@ -13,15 +13,15 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import Qt, QAbstractTableModel, QModelIndex, QDate, QMimeData
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QDrag
-from wwpm.formula import FormulaImportDialog
+from formula import FormulaImportDialog
 # 屏蔽 sip 警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
-# 保证 wwpm/ 在导入路径
+# 保证项目目录在导入路径
 sys.path.append(str(pathlib.Path(__file__).resolve().parent))
-from wwpm.database.water_report_dao import (
+from database.water_report_dao import (
     list_root, list_children, delete_entity, upsert_daily_report, DBSession,Bao
 )
-from wwpm.database.db_schema import DailyReport, SessionLocal, OilWellDatas, Well, Bao, Platformer
+from database.db_schema import DailyReport, SessionLocal, OilWellDatas, Well, Bao, Platformer
 import pandas as pd
 
 def fmt(value):
@@ -1258,7 +1258,7 @@ class AdminPage(QWidget):
                 text, ok = QInputDialog.getText(self, "新建作业区", "请输入作业区名称:")
                 if ok and text:
                     area_name = text.strip()
-                    from wwpm.database.water_report_dao import upsert_work_area
+                    from database.water_report_dao import upsert_work_area
                     upsert_work_area(area_name)
                     QMessageBox.information(self, "提示", f"作业区“{area_name}”创建成功")
 
@@ -1269,7 +1269,7 @@ class AdminPage(QWidget):
                     team_name = text.strip()
                     team_no, ok2 = QInputDialog.getInt(self, "编号", "请输入班组编号:")
                     if ok2:
-                        from wwpm.database.water_report_dao import upsert_prod_team
+                        from database.water_report_dao import upsert_prod_team
                         upsert_prod_team(self._current_id, team_no=team_no, team_name=team_name)
 
             elif self._current_level == "team":
@@ -1277,7 +1277,7 @@ class AdminPage(QWidget):
                 text, ok = QInputDialog.getText(self, "新建计量间", "请输入计量间号:")
                 if ok and text:
                     room_no = text.strip()
-                    from wwpm.database.water_report_dao import upsert_meter_room
+                    from database.water_report_dao import upsert_meter_room
                     upsert_meter_room(self._current_id, room_no=room_no)
 
             elif self._current_level == "room":
@@ -1285,12 +1285,12 @@ class AdminPage(QWidget):
                 items = ["水报", "油报"]
                 item, ok = QInputDialog.getItem(self, "选择报类型", "请选择报类型:", items, 0, False)
                 if ok and item:
-                    from wwpm.database.water_report_dao import upsert_bao
+                    from database.water_report_dao import upsert_bao
                     # 确保使用bao_type参数
                     upsert_bao(self._current_id, bao_type=item)
 
             elif self._current_level == "bao":
-                from wwpm.database.db_schema import Bao
+                from database.db_schema import Bao
                 # 获取当前报的类型信息
                 with DBSession() as db:
                     current_bao = db.get(Bao, self._current_id)
@@ -1303,7 +1303,7 @@ class AdminPage(QWidget):
                     text, ok = QInputDialog.getText(self, "新建井", "请输入井编号:")
                     if ok and text:
                         well_code = text.strip()
-                        from wwpm.database.water_report_dao import upsert_well, upsert_daily_report
+                        from database.water_report_dao import upsert_well, upsert_daily_report
                         from datetime import date
                         try:
                             well_id = upsert_well(
@@ -1339,7 +1339,7 @@ class AdminPage(QWidget):
                     text, ok = QInputDialog.getText(self, "新建平台", "请输入平台编号:")
                     if ok and text:
                         platform_no = text.strip()
-                        from wwpm.database.water_report_dao import upsert_platformer, upsert_well, upsert_oil_report
+                        from database.water_report_dao import upsert_platformer, upsert_well, upsert_oil_report
                         from datetime import date
                         try:
                             platform_id = upsert_platformer(bao_id=self._current_id, platform_name=platform_no)
@@ -1385,7 +1385,7 @@ class AdminPage(QWidget):
                 text, ok = QInputDialog.getText(self, "新建井", "请输入井编号:")
                 if ok and text:
                     well_code = text.strip()
-                    from wwpm.database.water_report_dao import upsert_well, upsert_oil_report
+                    from database.water_report_dao import upsert_well, upsert_oil_report
                     from datetime import date
                     try:
                         # 查询平台名称
@@ -1416,7 +1416,7 @@ class AdminPage(QWidget):
                         QMessageBox.warning(self, "失败", str(e))
 
             elif self._current_level == "well":
-                from wwpm.database.db_schema import Well, Bao
+                from database.db_schema import Well, Bao
                 with DBSession() as db:
                     # 获取当前井对象
                     well = db.get(Well, self._current_id)
@@ -1442,11 +1442,11 @@ class AdminPage(QWidget):
                         rpt = dlg.get_data()
 
                         if "水报" in bao.bao_typeid:
-                            from wwpm.database.water_report_dao import upsert_daily_report
+                            from database.water_report_dao import upsert_daily_report
                             upsert_daily_report(self._current_id, rpt)
                             QMessageBox.information(self, "提示", "日报添加成功")
                         elif "油报" in bao.bao_typeid:
-                            from wwpm.database.water_report_dao import upsert_oil_report
+                            from database.water_report_dao import upsert_oil_report
                             upsert_oil_report(self._current_id, rpt)
                             QMessageBox.information(self, "提示", "日报添加成功")
 
@@ -1478,7 +1478,7 @@ class AdminPage(QWidget):
             rpt_obj = self._daily_reports[row]
 
             if act == edit_act:
-                from wwpm.database.db_schema import DailyReport, OilWellDatas
+                from database.db_schema import DailyReport, OilWellDatas
                 if isinstance(rpt_obj, DailyReport):
                     dlg = DailyReportDialog(self, data=rpt_obj)
                 elif isinstance(rpt_obj, OilWellDatas):
@@ -1495,10 +1495,10 @@ class AdminPage(QWidget):
                 if dlg.exec_() == QDialog.Accepted:
                     new_data = dlg.get_data()
                     if isinstance(rpt_obj, DailyReport):
-                        from wwpm.database.water_report_dao import upsert_daily_report
+                        from database.water_report_dao import upsert_daily_report
                         upsert_daily_report(self._current_id, new_data)
                     else:
-                        from wwpm.database.water_report_dao import upsert_oil_report
+                        from database.water_report_dao import upsert_oil_report
                         upsert_oil_report(self._current_id, new_data)
                     self._on_tree_clicked(self.tree.currentIndex())
 
@@ -1731,7 +1731,7 @@ class AdvancedPage(QWidget):
                     team_name = text.strip()
                     team_no, ok2 = QInputDialog.getInt(self, "编号", "请输入班组编号:")
                     if ok2:
-                        from wwpm.database.water_report_dao import upsert_prod_team
+                        from database.water_report_dao import upsert_prod_team
                         upsert_prod_team(self._current_id, team_no=team_no, team_name=team_name)
                         QMessageBox.information(self, "成功", "班组创建成功")
                         self._build_tree()  # 刷新树视图
@@ -1741,7 +1741,7 @@ class AdvancedPage(QWidget):
                 text, ok = QInputDialog.getText(self, "新建计量间", "请输入计量间号:")
                 if ok and text:
                     room_no = text.strip()
-                    from wwpm.database.water_report_dao import upsert_meter_room
+                    from database.water_report_dao import upsert_meter_room
                     upsert_meter_room(self._current_id, room_no=room_no)
                     QMessageBox.information(self, "成功", "计量间创建成功")
                     self._build_tree()  # 刷新树视图
@@ -1751,7 +1751,7 @@ class AdvancedPage(QWidget):
                 items = ["水报", "油报"]
                 item, ok = QInputDialog.getItem(self, "选择报类型", "请选择报类型:", items, 0, False)
                 if ok and item:
-                    from wwpm.database.water_report_dao import upsert_bao
+                    from database.water_report_dao import upsert_bao
                     upsert_bao(self._current_id, bao_type=item)
                     QMessageBox.information(self, "成功", f"{item}创建成功")
                     self._build_tree()  # 刷新树视图
@@ -1770,7 +1770,7 @@ class AdvancedPage(QWidget):
                     text, ok = QInputDialog.getText(self, "新建井", "请输入井编号:")
                     if ok and text:
                         well_code = text.strip()
-                        from wwpm.database.water_report_dao import upsert_well
+                        from database.water_report_dao import upsert_well
                         well_id = upsert_well(bao_id=self._current_id, well_code=well_code)
                         if well_id:
                             QMessageBox.information(self, "成功", "井创建成功")
@@ -1785,7 +1785,7 @@ class AdvancedPage(QWidget):
                     text, ok = QInputDialog.getText(self, "新建平台", "请输入平台编号:")
                     if ok and text:
                         platform_no = text.strip()
-                        from wwpm.database.water_report_dao import upsert_platformer
+                        from database.water_report_dao import upsert_platformer
                         platform_id = upsert_platformer(bao_id=self._current_id, platform_no=platform_no)
                         if platform_id:
                             QMessageBox.information(self, "成功", "平台创建成功")
@@ -1801,7 +1801,7 @@ class AdvancedPage(QWidget):
                 text, ok = QInputDialog.getText(self, "新建井", "请输入井编号:")
                 if ok and text:
                     well_code = text.strip()
-                    from wwpm.database.water_report_dao import upsert_well
+                    from database.water_report_dao import upsert_well
                     well_id = upsert_well(platformer_id=self._current_id, well_code=well_code)
                     if well_id:
                         QMessageBox.information(self, "成功", "井创建成功")

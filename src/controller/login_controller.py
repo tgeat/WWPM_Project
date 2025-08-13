@@ -1,10 +1,10 @@
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 
-from wwpm.view.login_view import LoginView
-import wwpm.database.user_account_dao as user_dao
+from view.login_view import LoginView
+import database.user_account_dao as user_dao
 
-from wwpm.core.enums import AccountPermissionEnum
+from core.enums import AccountPermissionEnum
 
 class LoginPresenter(QObject):
     login_status_signal = pyqtSignal(bool)

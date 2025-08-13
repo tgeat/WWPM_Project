@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from wwpm.core.enums import AccountPermissionEnum
+from core.enums import AccountPermissionEnum
 
 @dataclass(frozen=True)  # 去掉 slots=True，Python 3.8 不支持
 class Account:
